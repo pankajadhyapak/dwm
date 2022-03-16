@@ -1,0 +1,8 @@
+drw.o
+dwm
+dwm.o
+util.o
+config.h
+config.h.bck
+*.orig
+*.rej

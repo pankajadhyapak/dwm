@@ -1,0 +1,10 @@
+# dwm - dynamic window manager
+
+dwm is an extremely fast, small, and dynamic window manager for X.
+
+## My Patches
+
+This is in the order that I patched everything:
+
+- [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
+- [shiftview](https://lists.suckless.org/dev/1104/7590.html)
