@@ -41,14 +41,14 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
+const char *spcmd1[] = {"st", "-n", "sporgmode", "-g", "120x34", "-e", "newScratchpad", NULL };
+const char *spcmd2[] = {"st", "-n", "spranger", "-g", "120x34", "-e", "ranger", NULL };
+const char *spcmd3[] = {"st", "-n", "spterminal", "-g", "120x34", NULL};
 static Sp scratchpads[] = {
-	/* name          cmd  */
-	{"spterm",      spcmd1},
+	/* name          	cmd  */
+	{"sporgmode",  	spcmd1},
 	{"spranger",    spcmd2},
-	{"keepassxc",   spcmd3},
+	{"spterminal",  spcmd3},
 };
 
 /* tagging */
@@ -64,15 +64,35 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Gimp",    NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
-	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
-	{ NULL,		 "spterm",		NULL,		SPTAG(0),		1,			0,0, -1 },
-	{ NULL,		 "spfm",		NULL,		SPTAG(1),		1,			0,0, -1 },
-	{ NULL,		 "keepassxc",	NULL,		SPTAG(2),		0,			0,0, -1 },
+	/* class      		instance    	title       	tags mask     isfloating   isterminal	noswallow	monitor */
+	{ "kitty",			"kittymain",  NULL,       	1 << 0,	0,          	1,		0,		-1 },
+	{ "Google-chrome",		NULL,       	NULL,       	1 << 1,       0,          	0,		0,		-1 },
+	{ "Code",			NULL,       	NULL,       	1 << 2,       0,          	0,		0,		-1 },
+	{ "jetbrains-goland",	NULL,       	NULL,       	1 << 3,       0,          	0,		0, 		-1 },
+	{ "jetbrains-phpstorm",	NULL,       	NULL,       	1 << 3,       0,          	0,		0, 		-1 },
+	{ "Mysql-workbench-bin", 	NULL,       	NULL,       	1 << 4,       0,          	0,		0, 		-1 },
+	{ "Slack",  			NULL,       	NULL,       	1 << 6,       0,          	0,		0,  		 1 },
+	{ "GitHub Desktop",		NULL,       	NULL,       	1 << 7,       0,         	0,		0,   		 1 },
+	{ "Mailspring",  		NULL,       	NULL,       	1 << 8,       0,         	0,		0,   		 1 },
+	{ "kitty",     		NULL,    	NULL,       	0,         	0,          	1,		0,		-1 },
+	{ NULL,     			NULL,    "Event Tester",  	0,         	0,          	0,		1,		-1 },
 
+	// Floating windows
+	{ "*:floating",  		NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
+	{ "*:pop-up",  		NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
+	{ "Thunar",  			NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
+	{ "Lxappearance",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
+	{ "Arandr",  			NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
+	{ "Pavucontrol",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
+	{ "Gnome-disks",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
+	{ "Gnome-calculator",  	NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
+	{ "mpv",  			NULL,       	NULL,      	0,       	1,         	0,		0,   		-1 },
+	{ "Nsxiv",  			NULL,       	NULL,      	0,       	1,        	0,		0,    		-1 },
+
+	// scratchpads
+	{ NULL,		  	"sporgmode",	NULL,		SPTAG(0),	1,		0,		0,	 	-1 },
+	{ NULL,		  	"spranger",	NULL,		SPTAG(1),	1,		0,		0,	 	-1 },
+	{ NULL,		  	"spterminal",	NULL,		SPTAG(2),	1,		0,		0,	 	-1 },
 };
 
 /* layout(s) */
@@ -86,109 +106,43 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
-	{ "###",      nrowgrid },
-	{ "---",      horizgrid },
-	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
+	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
+	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
+
+
+	{ "[D]",	deck },			/* Master on left, slaves in monocle-like mode on right */
+	{ "[M]",	monocle },		/* All windows on top of eachother */
+
+	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
+
+	{ "><>",	NULL },			/* no layout function means floating behavior */
+	{ NULL,		NULL },
+
+	// { "[@]",	spiral },		/* Fibonacci spiral */
+	// { "[\\]",	dwindle },		/* Decreasing in size right and leftward */
+
+	// Other available layouts
+	// { "[@]",      	spiral },
+	// { "===",      	bstackhoriz },
+	// { "HHH",      	grid },
+	// { "###",      	nrowgrid },
+	// { "---",      	horizgrid },
+	// { ":::",      	gaplessgrid },
+	// { ">M>",      	centeredfloatingmaster },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
-#define ALTMOD Mod1Mask
-#define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, \
-	{ ALTMOD,                       KEY,      focusnthmon,    {.i  = TAG } }, \
-	{ ALTMOD|ShiftMask,             KEY,      tagnthmon,      {.i  = TAG } },
-
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "st", NULL };
-
 #include "movestack.c"
 #include "shiftview.c"
 static Key keys[] = {
-	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_w,      tabmode,        {-1} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
-	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
-	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_o,      incrogaps,      {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_6,      incrihgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_7,      incrivgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_8,      incrohgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_0,      togglegaps,     {0} },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ControlMask,			XK_comma,  cyclelayout,    {.i = -1 } },
-	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY,                       XK_s,      togglesticky,   {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
-	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            			XK_x,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 };
 
 /* button definitions */
@@ -198,15 +152,16 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	// { ClkStatusText,        0,              Button1,        spawn,          SHCMD("powermenu") },
+	{ ClkStatusText,        0,              Button2,        spawn,          SHCMD("st") },
+	{ ClkStatusText,        0,              Button3,        spawn,          SHCMD("powermenu") },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
-	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };
 
 #include "dwmc.c"
