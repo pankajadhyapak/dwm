@@ -44,11 +44,13 @@ typedef struct {
 const char *spcmd1[] = {"st", "-n", "sporgmode", "-g", "120x34", "-e", "newScratchpad", NULL };
 const char *spcmd2[] = {"st", "-n", "spranger", "-g", "120x34", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st", "-n", "spterminal", "-g", "120x34", NULL};
+const char *spcmd4[] = {"sleek", NULL};
 static Sp scratchpads[] = {
 	/* name          	cmd  */
 	{"sporgmode",  	spcmd1},
 	{"spranger",    spcmd2},
 	{"spterminal",  spcmd3},
+	{"sleek",  		spcmd4},
 };
 
 /* tagging */
@@ -64,35 +66,36 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      		instance    	title       	tags mask     isfloating   isterminal	noswallow	monitor */
-	{ "kitty",			"kittymain",  NULL,       	1 << 0,	0,          	1,		0,		-1 },
-	{ "Google-chrome",		NULL,       	NULL,       	1 << 1,       0,          	0,		0,		-1 },
-	{ "Code",			NULL,       	NULL,       	1 << 2,       0,          	0,		0,		-1 },
-	{ "jetbrains-goland",	NULL,       	NULL,       	1 << 3,       0,          	0,		0, 		-1 },
-	{ "jetbrains-phpstorm",	NULL,       	NULL,       	1 << 3,       0,          	0,		0, 		-1 },
-	{ "Mysql-workbench-bin", 	NULL,       	NULL,       	1 << 4,       0,          	0,		0, 		-1 },
-	{ "Slack",  			NULL,       	NULL,       	1 << 6,       0,          	0,		0,  		 1 },
-	{ "GitHub Desktop",		NULL,       	NULL,       	1 << 7,       0,         	0,		0,   		 1 },
-	{ "Mailspring",  		NULL,       	NULL,       	1 << 8,       0,         	0,		0,   		 1 },
-	{ "kitty",     		NULL,    	NULL,       	0,         	0,          	1,		0,		-1 },
-	{ NULL,     			NULL,    "Event Tester",  	0,         	0,          	0,		1,		-1 },
+	/* class      			instance    	title       		tags mask     isfloating   isterminal	noswallow	monitor */
+	{ "kitty",				"kittymain",  	NULL,       		1 << 0,			0,          	1,			0,		-1 },
+	{ "Google-chrome",		NULL,       	NULL,       		1 << 1,       	0,          	0,			0,		-1 },
+	{ "Code",				NULL,       	NULL,       		1 << 2,       	0,          	0,			0,		-1 },
+	{ "jetbrains-goland",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
+	{ "jetbrains-phpstorm",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
+	{ "Mysql-workbench-bin",NULL,       	NULL,       		1 << 4,       	0,          	0,			0, 		-1 },
+	{ "Slack",  			NULL,       	NULL,       		1 << 6,       	0,          	0,			0,  	1 },
+	{ "GitHub Desktop",		NULL,       	NULL,       		1 << 7,       	0,         		0,			0,   	1 },
+	{ "Mailspring",  		NULL,       	NULL,       		1 << 8,       	0,         		0,			0,   	1 },
+	{ "kitty",     			NULL,    		NULL,       		0,         		0,          	1,			0,		-1 },
+	{ NULL,     			NULL,    		"Event Tester",  	0,         		0,          	0,			1,		-1 },
 
 	// Floating windows
-	{ "*:floating",  		NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
-	{ "*:pop-up",  		NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
-	{ "Thunar",  			NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
-	{ "Lxappearance",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
-	{ "Arandr",  			NULL,       	NULL,      	0,       	1,           	0,		0, 		-1 },
-	{ "Pavucontrol",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
-	{ "Gnome-disks",  		NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
-	{ "Gnome-calculator",  	NULL,       	NULL,      	0,       	1,          	0,		0,  		-1 },
-	{ "mpv",  			NULL,       	NULL,      	0,       	1,         	0,		0,   		-1 },
-	{ "Nsxiv",  			NULL,       	NULL,      	0,       	1,        	0,		0,    		-1 },
+	{ "*:floating",  		NULL,       	NULL,      			0,       		1,           	0,			0, 		-1 },
+	{ "*:pop-up",  			NULL,       	NULL,      			0,       		1,           	0,			0, 		-1 },
+	{ "Thunar",  			NULL,       	NULL,      			0,       		1,          	0,			0,  	-1 },
+	{ "Lxappearance",  		NULL,       	NULL,      			0,       		1,          	0,			0,  	-1 },
+	{ "Arandr",  			NULL,       	NULL,      			0,       		1,           	0,			0, 		-1 },
+	{ "Pavucontrol",  		NULL,       	NULL,      			0,       		1,          	0,			0,  	-1 },
+	{ "Gnome-disks",  		NULL,       	NULL,      			0,       		1,          	0,			0,  	-1 },
+	{ "Gnome-calculator",  	NULL,       	NULL,      			0,       		1,          	0,			0,  	-1 },
+	{ "mpv",  				NULL,       	NULL,      			0,       		1,         		0,			0,   	-1 },
+	{ "Nsxiv",  			NULL,       	NULL,      			0,       		1,        		0,			0,    	-1 },
 
-	// scratchpads
-	{ NULL,		  	"sporgmode",	NULL,		SPTAG(0),	1,		0,		0,	 	-1 },
-	{ NULL,		  	"spranger",	NULL,		SPTAG(1),	1,		0,		0,	 	-1 },
-	{ NULL,		  	"spterminal",	NULL,		SPTAG(2),	1,		0,		0,	 	-1 },
+	/* class      	instance    	title       tags mask  isfloating   isterminal	noswallow	monitor */
+	{ NULL,		  	"sporgmode",	NULL,		SPTAG(0),	1,				0,		0,	 			-1 },
+	{ NULL,		  	"spranger",		NULL,		SPTAG(1),	1,				0,		0,	 			-1 },
+	{ NULL,		  	"spterminal",	NULL,		SPTAG(2),	1,				0,		0,	 			-1 },
+	{"sleek",		NULL,			NULL,		SPTAG(3),	1,				0,		0,	 			-1 },
 };
 
 /* layout(s) */
