@@ -22,8 +22,7 @@ static const int topbar             = 1;     /* 0 means bottom bar */
 enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
 static const int showtab            = showtab_auto; /* Default tab bar show mode */
 static const Bool toptab            = False;    /* False means bottom tab bar */
-
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11","JoyPixels:pixelsize=10:antialias=true:autohint=true"};
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
 static char normbgcolor[]           = "#1E1E2E";
 static char normbordercolor[]       = "#1E1E2E";
@@ -50,7 +49,7 @@ static Sp scratchpads[] = {
 	{"sporgmode",  	spcmd1},
 	{"spranger",    spcmd2},
 	{"spterminal",  spcmd3},
-	{"sleek",  		spcmd4},
+	{"ticktick",	spcmd4},
 };
 
 /* tagging */
@@ -73,6 +72,7 @@ static const Rule rules[] = {
 	{ "jetbrains-goland",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
 	{ "jetbrains-phpstorm",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
 	{ "Mysql-workbench-bin",NULL,       	NULL,       		1 << 4,       	0,          	0,			0, 		-1 },
+	{ "TablePlus",			NULL,       	NULL,       		1 << 4,       	0,          	0,			0, 		-1 },
 	{ "Slack",  			NULL,       	NULL,       		1 << 6,       	0,          	0,			0,  	1 },
 	{ "GitHub Desktop",		NULL,       	NULL,       		1 << 7,       	0,         		0,			0,   	1 },
 	{ "Mailspring",  		NULL,       	NULL,       		1 << 8,       	0,         		0,			0,   	1 },
@@ -91,11 +91,11 @@ static const Rule rules[] = {
 	{ "mpv",  				NULL,       	NULL,      			0,       		1,         		0,			0,   	-1 },
 	{ "Nsxiv",  			NULL,       	NULL,      			0,       		1,        		0,			0,    	-1 },
 
-	/* class      	instance    	title       tags mask  isfloating   isterminal	noswallow	monitor */
-	{ NULL,		  	"sporgmode",	NULL,		SPTAG(0),	1,				0,		0,	 			-1 },
-	{ NULL,		  	"spranger",		NULL,		SPTAG(1),	1,				0,		0,	 			-1 },
-	{ NULL,		  	"spterminal",	NULL,		SPTAG(2),	1,				0,		0,	 			-1 },
-	{"sleek",		NULL,			NULL,		SPTAG(3),	1,				0,		0,	 			-1 },
+	/* class      			instance    	title       		tags mask  	isfloating   isterminal	noswallow	monitor */
+	{ NULL,		  			"sporgmode",	NULL,				SPTAG(0),		1,				1,		1,	 			-1 },
+	{ NULL,		  			"spranger",		NULL,				SPTAG(1),		1,				1,		1,	 			-1 },
+	{ NULL,		  			"spterminal",	NULL,				SPTAG(2),		1,				1,		1,	 			-1 },
+	{"ticktick",			NULL,			NULL,				SPTAG(3),		1,				0,		1,	 			-1 },
 };
 
 /* layout(s) */
