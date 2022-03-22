@@ -1086,7 +1086,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 			if (!isCode) {
 				isCode = 1;
 				text[i] = '\0';
-				w += TEXTW(text) - lrpad / 2 + 2;
+				w += TEXTW(text) - lrpad;
 				text[i] = '^';
 				if (text[++i] == 'f')
 					w += atoi(text + ++i);
@@ -1098,7 +1098,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 		}
 	}
 	if (!isCode)
-		w += TEXTW(text) - lrpad / 2 + 2;
+		w += TEXTW(text) - lrpad;
 	else
 		isCode = 0;
 	text = p;
@@ -1119,7 +1119,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 			isCode = 1;
 
 			text[i] = '\0';
-			w = TEXTW(text) - lrpad / 2 + 2;
+			w = TEXTW(text) - lrpad;
 			drw_text(drw, x - getsystraywidth(), 0, w, bh, 0, text, 0);
 
 			x += w;
@@ -1163,7 +1163,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 	}
 
 	if (!isCode) {
-		w = TEXTW(text) - lrpad / 2 + 2;
+		w = TEXTW(text) - lrpad;
 		drw_text(drw, x - getsystraywidth(), 0, w, bh, 0, text, 0);
 	}
 
