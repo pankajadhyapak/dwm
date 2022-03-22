@@ -22,8 +22,7 @@ static const int topbar             = 1;     /* 0 means bottom bar */
 enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
 static const int showtab            = showtab_auto; /* Default tab bar show mode */
 static const Bool toptab            = False;    /* False means bottom tab bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11","JoyPixels:pixelsize=10:antialias=true:autohint=true"};
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11","JoyPixels:pixelsize=11:antialias=true:autohint=true"};
 static char normbgcolor[]           = "#1E1E2E";
 static char normbordercolor[]       = "#1E1E2E";
 static char normfgcolor[]           = "#D9E0EE";
@@ -43,7 +42,7 @@ typedef struct {
 const char *spcmd1[] = {"st", "-n", "sporgmode", "-g", "120x34", "-e", "newScratchpad", NULL };
 const char *spcmd2[] = {"st", "-n", "spranger", "-g", "120x34", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st", "-n", "spterminal", "-g", "120x34", NULL};
-const char *spcmd4[] = {"sleek", NULL};
+const char *spcmd4[] = {"ticktick", NULL};
 static Sp scratchpads[] = {
 	/* name          	cmd  */
 	{"sporgmode",  	spcmd1},
