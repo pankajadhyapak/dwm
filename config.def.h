@@ -22,8 +22,7 @@ static const int topbar             = 1;     /* 0 means bottom bar */
 enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
 static const int showtab            = showtab_auto; /* Default tab bar show mode */
 static const Bool toptab            = False;    /* False means bottom tab bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11","JoyPixels:pixelsize=10:antialias=true:autohint=true"};
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11","JoyPixels:pixelsize=11:antialias=true:autohint=true"};
 static char normbgcolor[]           = "#1E1E2E";
 static char normbordercolor[]       = "#1E1E2E";
 static char normfgcolor[]           = "#D9E0EE";
@@ -43,7 +42,7 @@ typedef struct {
 const char *spcmd1[] = {"st", "-n", "sporgmode", "-g", "120x34", "-e", "newScratchpad", NULL };
 const char *spcmd2[] = {"st", "-n", "spranger", "-g", "120x34", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st", "-n", "spterminal", "-g", "120x34", NULL};
-const char *spcmd4[] = {"sleek", NULL};
+const char *spcmd4[] = {"ticktick", NULL};
 static Sp scratchpads[] = {
 	/* name          	cmd  */
 	{"sporgmode",  	spcmd1},
@@ -106,7 +105,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
-
+#define STATUSBAR "dwmblocks"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
@@ -155,9 +154,10 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	// { ClkStatusText,        0,              Button1,        spawn,          SHCMD("powermenu") },
-	{ ClkStatusText,        0,              Button2,        spawn,          SHCMD("st") },
-	{ ClkStatusText,        0,              Button3,        spawn,          SHCMD("powermenu") },
+	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        spawn,   		SHCMD("powermenu") },
+	{ ClkStatusText,        0,              Button3,        sigstatusbar,   {.i = 3} },
+	{ ClkStatusText,        ShiftMask,      Button1,        sigstatusbar,   {.i = 6} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
