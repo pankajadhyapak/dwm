@@ -611,6 +611,7 @@ void
 buttonpress(XEvent *e)
 {
 	unsigned int i, x, click;
+	int stw = 0;
 	Arg arg = {0};
 	Client *c;
 	Monitor *m;
@@ -623,6 +624,8 @@ buttonpress(XEvent *e)
 		selmon = m;
 		focus(NULL);
 	}
+	if(showsystray && m == systraytomon(m) && !systrayonleft)
+		stw = getsystraywidth();
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
 		do
@@ -633,8 +636,8 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth()){
-			x = selmon->ww - statusw - getsystraywidth();
+		else if (ev->x > selmon->ww - (int)TEXTW(stext) - stw){
+			x = selmon->ww - statusw - stw;
 			click = ClkStatusText;
 		char *text, *s, ch;
 			statussig = 0;
@@ -1062,10 +1065,13 @@ numtomon(int num)
 
 int
 drawstatusbar(Monitor *m, int bh, char* stext) {
-	int ret, i, j, w, x, len;
+	int ret, i, j, w, x, len, stw = 0;
 	short isCode = 0;
 	char *text;
 	char *p;
+
+	if(showsystray && m == systraytomon(m) && !systrayonleft)
+		stw = getsystraywidth();
 
 	len = strlen(stext) + 1 ;
 	if (!(text = (char*) malloc(sizeof(char)*len)))
@@ -1120,7 +1126,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 
 			text[i] = '\0';
 			w = TEXTW(text) - lrpad;
-			drw_text(drw, x - getsystraywidth(), 0, w, bh, 0, text, 0);
+			drw_text(drw, x - stw, 0, w, bh, 0, text, 0);
 
 			x += w;
 
@@ -1164,7 +1170,7 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 
 	if (!isCode) {
 		w = TEXTW(text) - lrpad;
-		drw_text(drw, x - getsystraywidth(), 0, w, bh, 0, text, 0);
+		drw_text(drw, x - stw, 0, w, bh, 0, text, 0);
 	}
 
 	drw_setscheme(drw, scheme[SchemeNorm]);
