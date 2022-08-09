@@ -41,7 +41,7 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"st", "-n", "sporgmode", "-g", "120x34", "-e", "newScratchpad", NULL };
-const char *spcmd2[] = {"st", "-n", "spranger", "-g", "120x34", "-e", "ranger", NULL };
+const char *spcmd2[] = {"thunar", NULL };
 const char *spcmd3[] = {"st", "-n", "spterminal", "-g", "120x34", NULL};
 const char *spcmd4[] = {"ticktick", NULL};
 static Sp scratchpads[] = {
@@ -69,6 +69,7 @@ static const Rule rules[] = {
 	{ "kitty",				"kittymain",  	NULL,       		1 << 0,			0,          	1,			0,		-1 },
 	{ "Google-chrome",		NULL,       	NULL,       		1 << 1,       	0,          	0,			0,		-1 },
 	{ "Code",				NULL,       	NULL,       		1 << 2,       	0,          	0,			0,		-1 },
+	{ "jetbrains-studio",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
 	{ "jetbrains-goland",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
 	{ "jetbrains-phpstorm",	NULL,       	NULL,       		1 << 3,       	0,          	0,			0, 		-1 },
 	{ "Mysql-workbench-bin",NULL,       	NULL,       		1 << 4,       	0,          	0,			0, 		-1 },
@@ -93,7 +94,7 @@ static const Rule rules[] = {
 
 	/* class      			instance    	title       		tags mask  	isfloating   isterminal		noswallow	monitor */
 	{ NULL,		  			"sporgmode",	NULL,				SPTAG(0),		1,				1,			1,		-1 },
-	{ NULL,		  			"spranger",		NULL,				SPTAG(1),		1,				1,			1,		-1 },
+	{ "Thunar",		  		NULL,			NULL,				SPTAG(1),		1,				1,			1,		-1 },
 	{ NULL,		  			"spterminal",	NULL,				SPTAG(2),		1,				1,			1,		-1 },
 	{"ticktick",			NULL,			NULL,				SPTAG(3),		1,				0,			1,		-1 },
 };
